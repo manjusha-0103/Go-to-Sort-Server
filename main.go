@@ -73,7 +73,11 @@ func concurrentSort(toSort [][]int) [][]int {
 	for i := range toSort {
 		go func(i int) {
 			defer wg.Done()
-			sort.Ints(toSort[i])
+			// Create a copy of the sub-array before sorting
+			temp := make([]int, len(toSort[i]))
+			copy(temp, toSort[i])
+			sort.Ints(temp)
+			toSort[i] = temp
 		}(i)
 	}
 
